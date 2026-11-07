@@ -11,10 +11,10 @@ homepage = "https://github.com/knyaz-tishini/mirage-oss"
 name = "mirage_vpn_mesh"
 
 [dependencies]
-mirage-vpn = { workspace = true }
-mirage-core = { workspace = true }
-mirage-protocol = { workspace = true }
-mirage-control-plane = { workspace = true }
+mirage-vpn = { workspace = true  }
+mirage-core = { workspace = true  }
+mirage-protocol = { workspace = true  }
+mirage-control-plane = { workspace = true  }
 tokio = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }

@@ -13,7 +13,7 @@ name = "mirage_shared_types"
 [dependencies]
 serde = { workspace = true }
 serde_json = { workspace = true }
-mirage-core = { workspace = true }
+mirage-core = { workspace = true  }
 # MeshOp signing-bytes + verification (mesh_op module) — the same crypto
 # primitive mirage-core already re-exports for BoxSigningKey.
 ed25519-dalek = { workspace = true }

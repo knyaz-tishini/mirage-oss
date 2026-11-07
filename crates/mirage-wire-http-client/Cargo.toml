@@ -10,8 +10,8 @@ homepage = "https://github.com/knyaz-tishini/mirage-oss"
 name = "mirage_wire_http_client"
 
 [dependencies]
-mirage-core         = { workspace = true }
-mirage-protocol      = { workspace = true }
+mirage-core = { workspace = true  }
+mirage-protocol = { workspace = true  }
 tokio                = { workspace = true }
 tracing              = { workspace = true }
 hex                  = { workspace = true }

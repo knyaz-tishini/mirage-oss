@@ -67,11 +67,11 @@ socket2   = { workspace = true }
 # The front door needs the wire's own message shapes (V9 ClientHello) and
 # the camouflage strip pipeline (`strip_tcp_server`) to do its job at all —
 # unlike the pre-daemon library-only cut, this is no longer optional.
-mirage-protocol = { path = "../mirage-protocol", version = "0.1.0" }
+mirage-protocol = { path = "../mirage-protocol", version = "0.1.1"  }
 
 # Boot sequence follows `mirage-secd`/`mirage-warden` exactly: process
 # hardening before any secret material is loaded.
-mirage-hostsec = { path = "../mirage-hostsec", version = "0.1.0" }
+mirage-hostsec = { path = "../mirage-hostsec", version = "0.1.1"  }
 
 anyhow             = { workspace = true }
 thiserror          = { workspace = true }
@@ -90,7 +90,7 @@ rustls             = { workspace = true }
 # — decoy.rs now reports typed `PerimeterObservation` rows (defined in
 # `mirage_core::perimeter_observation`) through a sink this crate defines
 # and does not implement. See src/lib.rs's module doc.
-mirage-core = { path = "../mirage-core", version = "0.1.0" }
+mirage-core = { path = "../mirage-core", version = "0.1.1"  }
 
 [dev-dependencies]
 # `test-util` on top of the workspace's tokio spec, dev-only: needed by

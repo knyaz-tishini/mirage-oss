@@ -1,14 +1,14 @@
 [package]
 license = "MIT"
 name = "mirage-subscriber-gate"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Authenticate a customer dial and dispatch the tunnel."
 repository = "https://github.com/knyaz-tishini/mirage-oss"
 homepage = "https://github.com/knyaz-tishini/mirage-oss"
 [dependencies]
-mirage-core     = { path = "../mirage-core", version = "0.1.0" }
-mirage-protocol = { path = "../mirage-protocol", version = "0.1.0" }
+mirage-core = { path = "../mirage-core", version = "0.1.1"  }
+mirage-protocol = { path = "../mirage-protocol", version = "0.1.1"  }
 arc-swap        = "1"
 serde           = { version = "1", features = ["derive"] }
 serde_json      = "1"

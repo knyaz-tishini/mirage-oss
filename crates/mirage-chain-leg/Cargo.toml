@@ -8,10 +8,10 @@ description = "Chain leg: put a customer session into a chain and bring it out a
 repository = "https://github.com/knyaz-tishini/mirage-oss"
 homepage = "https://github.com/knyaz-tishini/mirage-oss"
 [dependencies]
-mirage-core = { workspace = true }
-mirage-protocol = { workspace = true }
-mirage-control-plane = { workspace = true }
-mirage-node = { workspace = true }
+mirage-core = { workspace = true  }
+mirage-protocol = { workspace = true  }
+mirage-control-plane = { workspace = true  }
+mirage-node = { workspace = true  }
 tokio = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }

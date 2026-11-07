@@ -12,7 +12,7 @@ ssh = ["russh", "russh-keys"]
 
 [dependencies]
 anyhow = { workspace = true }
-mirage-core = { workspace = true }
+mirage-core = { workspace = true  }
 serde = { workspace = true }
 tokio = { workspace = true }
 bytes = { workspace = true }

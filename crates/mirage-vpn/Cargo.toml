@@ -8,9 +8,9 @@ description = "A Mirage session between a client and a terminator, with no onion
 repository = "https://github.com/knyaz-tishini/mirage-oss"
 homepage = "https://github.com/knyaz-tishini/mirage-oss"
 [dependencies]
-mirage-core = { workspace = true }
-mirage-control-plane = { workspace = true }
-mirage-protocol = { workspace = true }
+mirage-core = { workspace = true  }
+mirage-control-plane = { workspace = true  }
+mirage-protocol = { workspace = true  }
 tokio = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }

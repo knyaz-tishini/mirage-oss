@@ -16,9 +16,9 @@ name = "mirage-vpn"
 path = "src/main.rs"
 
 [dependencies]
-mirage-vpn = { workspace = true }
-mirage-core = { workspace = true }
-mirage-protocol = { workspace = true }
+mirage-vpn = { workspace = true  }
+mirage-core = { workspace = true  }
+mirage-protocol = { workspace = true  }
 tokio = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
