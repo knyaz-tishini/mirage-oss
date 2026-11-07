@@ -32,28 +32,28 @@ members = [
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-publish = false
+publish = true
 repository = "https://github.com/knyaz-tishini/mirage-oss"
 homepage = "https://github.com/knyaz-tishini/mirage-oss"
 [workspace.dependencies]
 # Internal crates (OSS layer only — the fleet crates are NOT here).
-mirage-ids  = { path = "crates/mirage-ids" }
-mirage-blindtoken  = { path = "crates/mirage-blindtoken" }
-mirage-ringmember  = { path = "crates/mirage-ringmember" }
-mirage-core = { path = "crates/mirage-core" }
-mirage-protocol = { path = "crates/mirage-protocol" }
-mirage-mux = { path = "crates/mirage-mux" }
-mirage-control-plane = { path = "crates/mirage-dial-core" }
-mirage-wire-http-client = { path = "crates/mirage-wire-http-client" }
-mirage-shared-types    = { path = "crates/mirage-shared-types" }
-mirage-hostsec         = { path = "crates/mirage-hostsec" }
-mirage-perimeter       = { path = "crates/mirage-perimeter" }
+mirage-ids  = { path = "crates/mirage-ids", version = "0.1.0" }
+mirage-blindtoken  = { path = "crates/mirage-blindtoken", version = "0.1.1" }
+mirage-ringmember  = { path = "crates/mirage-ringmember", version = "0.1.0" }
+mirage-core = { path = "crates/mirage-core", version = "0.1.0" }
+mirage-protocol = { path = "crates/mirage-protocol", version = "0.1.0" }
+mirage-mux = { path = "crates/mirage-mux", version = "0.1.0" }
+mirage-control-plane = { path = "crates/mirage-dial-core", version = "0.1.0" }
+mirage-wire-http-client = { path = "crates/mirage-wire-http-client", version = "0.1.0" }
+mirage-shared-types    = { path = "crates/mirage-shared-types", version = "0.1.0" }
+mirage-hostsec         = { path = "crates/mirage-hostsec", version = "0.1.0" }
+mirage-perimeter       = { path = "crates/mirage-perimeter", version = "0.1.0" }
 mirage-node            = { path = "../mirage-node/crates/mirage-node" }
-mirage-subscriber-gate = { path = "crates/mirage-subscriber-gate" }
-mirage-vpn          = { path = "crates/mirage-vpn" }
-mirage-vpn-mesh     = { path = "crates/mirage-vpn-mesh" }
-mirage-vpn-cli      = { path = "crates/mirage-vpn-cli" }
-mirage-chain-leg    = { path = "crates/mirage-chain-leg" }
+mirage-subscriber-gate = { path = "crates/mirage-subscriber-gate", version = "0.1.0" }
+mirage-vpn          = { path = "crates/mirage-vpn", version = "0.1.0" }
+mirage-vpn-mesh     = { path = "crates/mirage-vpn-mesh", version = "0.1.0" }
+mirage-vpn-cli      = { path = "crates/mirage-vpn-cli", version = "0.1.0" }
+mirage-chain-leg    = { path = "crates/mirage-chain-leg", version = "0.1.0" }
 
 # Async runtime
 tokio = { version = "1", features = ["full"] }

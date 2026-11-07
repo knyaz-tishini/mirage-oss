@@ -3,7 +3,7 @@ name = "mirage-hostsec"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-publish = false
+publish = true
 description = "Host-security recipes: process hardening, nftables policy, and posture probes."
 
 # mirage-local host-security recipes for the L2/L3 security vertical

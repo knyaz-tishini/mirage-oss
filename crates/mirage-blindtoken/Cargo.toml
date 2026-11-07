@@ -1,14 +1,18 @@
 [package]
 name = "mirage-blindtoken"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 license = "MIT"
-publish = false
+publish = true
 description = "RFC 9474 RSA blind signature token issuance primitive (RSABSSA-SHA384-PSS-Randomized)"
 repository = "https://github.com/knyaz-tishini/mirage-oss"
 homepage = "https://github.com/knyaz-tishini/mirage-oss"
 [dependencies]
 blind-rsa-signatures = { version = "=0.17.2", default-features = false }
+# Published crates do not ship Cargo.lock. Fresh cargo otherwise picks
+# rsa 0.10.0-rc.21 / pkcs1 0.8.0, which fail to compile against 0.17.2.
+rsa = "=0.10.0-rc.18"
+pkcs1 = "=0.8.0-rc.4"
 thiserror = "1"
 
 [dev-dependencies]

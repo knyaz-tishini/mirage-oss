@@ -1,9 +1,9 @@
 [package]
 name = "mirage-chain-leg"
 version.workspace = true
+publish = false
 edition.workspace = true
 license.workspace = true
-publish.workspace = true
 description = "Chain leg: put a customer session into a chain and bring it out at the exit."
 repository = "https://github.com/knyaz-tishini/mirage-oss"
 homepage = "https://github.com/knyaz-tishini/mirage-oss"

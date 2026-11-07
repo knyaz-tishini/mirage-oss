@@ -8,8 +8,8 @@ repository = "https://github.com/knyaz-tishini/mirage-oss"
 homepage = "https://github.com/knyaz-tishini/mirage-oss"
 [dependencies]
 mirage-ids = { workspace = true }
-mirage-blindtoken = { path = "../mirage-blindtoken" }
-mirage-ringmember = { path = "../mirage-ringmember" }
+mirage-blindtoken = { workspace = true }
+mirage-ringmember = { workspace = true }
 x25519-dalek = { workspace = true }
 ed25519-dalek = { workspace = true }
 zeroize = { version = "1.8", features = ["derive", "alloc"] }

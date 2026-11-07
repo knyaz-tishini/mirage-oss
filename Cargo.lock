@@ -210,32 +210,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8"
 
 [[package]]
-name = "awgtun"
-version = "0.12.0"
-source = "git+https://github.com/AYastrebov/awgtun?tag=v0.12.0#738ce7e26b520dd621571e913a53bdc9795fc2f5"
-dependencies = [
- "aead 0.6.1",
- "base64 0.23.1",
- "blake2 0.11.0",
- "chacha20 0.10.0",
- "chacha20poly1305 0.11.0",
- "getrandom 0.4.2",
- "hex",
- "hmac 0.13.0",
- "ip_network",
- "ip_network_table",
- "libc",
- "nix",
- "parking_lot 0.13.0",
- "portable-atomic",
- "ring",
- "subtle",
- "tracing",
- "untrusted 0.9.0",
- "x25519-dalek 3.0.0",
-]
-
-[[package]]
 name = "aws-lc-rs"
 version = "1.16.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2168,11 +2142,40 @@ dependencies = [
 ]
 
 [[package]]
+name = "mirage-awgtun"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d6c08f959bd530880bd4fdb9dd981a4f951c2d205a6509d7bbee9ede6b6af18a"
+dependencies = [
+ "aead 0.6.1",
+ "base64 0.23.1",
+ "blake2 0.11.0",
+ "chacha20 0.10.0",
+ "chacha20poly1305 0.11.0",
+ "getrandom 0.4.2",
+ "hex",
+ "hmac 0.13.0",
+ "ip_network",
+ "ip_network_table",
+ "libc",
+ "nix",
+ "parking_lot 0.13.0",
+ "portable-atomic",
+ "ring",
+ "subtle",
+ "tracing",
+ "untrusted 0.9.0",
+ "x25519-dalek 3.0.0",
+]
+
+[[package]]
 name = "mirage-blindtoken"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "blind-rsa-signatures",
+ "pkcs1 0.8.0-rc.4",
  "rand 0.8.5",
+ "rsa 0.10.0-rc.18",
  "thiserror 1.0.69",
 ]
 
@@ -2347,7 +2350,6 @@ dependencies = [
  "aes-gcm 0.10.3",
  "anyhow",
  "async-trait",
- "awgtun",
  "blake3",
  "boringtun",
  "bytes",
@@ -2361,11 +2363,14 @@ dependencies = [
  "hex",
  "hkdf",
  "http",
+ "mirage-awgtun",
  "mirage-core",
+ "pkcs1 0.8.0-rc.4",
  "quinn",
  "rand 0.8.5",
  "rcgen",
  "ring",
+ "rsa 0.10.0-rc.18",
  "russh",
  "russh-keys",
  "rustls",
