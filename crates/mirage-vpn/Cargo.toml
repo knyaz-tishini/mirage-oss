@@ -1,0 +1,25 @@
+[package]
+name = "mirage-vpn"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "A Mirage session between a client and a terminator, with no onion chain."
+repository = "https://github.com/knyaz-tishini/mirage-oss"
+homepage = "https://github.com/knyaz-tishini/mirage-oss"
+[dependencies]
+mirage-core = { workspace = true }
+mirage-control-plane = { workspace = true }
+mirage-protocol = { workspace = true }
+tokio = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+base64 = { workspace = true }
+hex = { workspace = true }
+async-trait = "0.1"
+libc = "0.2"
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util", "macros", "rt-multi-thread"] }

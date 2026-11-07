@@ -1,0 +1,23 @@
+[package]
+license = "MIT"
+name = "mirage-mux"
+version.workspace = true
+edition.workspace = true
+description = "Stream mux over one connection: frames, windows, and sessions."
+repository = "https://github.com/knyaz-tishini/mirage-oss"
+homepage = "https://github.com/knyaz-tishini/mirage-oss"
+[features]
+tokio-compat = ["dep:tokio"]
+default = ["tokio-compat"]
+
+[dependencies]
+futures = { workspace = true }
+parking_lot = { workspace = true }
+nohash-hasher = { workspace = true }
+pin-project = { workspace = true }
+rand = { workspace = true }
+tracing = { workspace = true }
+tokio = { workspace = true, optional = true }
+
+[dev-dependencies]
+tokio = { workspace = true }

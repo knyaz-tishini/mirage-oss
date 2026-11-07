@@ -1,0 +1,26 @@
+[package]
+name = "mirage-chain-leg"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Chain leg: put a customer session into a chain and bring it out at the exit."
+repository = "https://github.com/knyaz-tishini/mirage-oss"
+homepage = "https://github.com/knyaz-tishini/mirage-oss"
+[dependencies]
+mirage-core = { workspace = true }
+mirage-protocol = { workspace = true }
+mirage-control-plane = { workspace = true }
+mirage-node = { workspace = true }
+tokio = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+async-trait = "0.1"
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util", "macros", "rt-multi-thread"] }
+async-trait = "0.1"
+ed25519-dalek = { version = "2", features = ["rand_core"] }
+hex = "0.4"
+rand = "0.8"
+uuid = { version = "1", features = ["v4"] }

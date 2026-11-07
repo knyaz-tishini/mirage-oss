@@ -1,0 +1,22 @@
+[package]
+name = "mirage-vpn-mesh"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "A Mirage session carried inside an onion chain."
+repository = "https://github.com/knyaz-tishini/mirage-oss"
+homepage = "https://github.com/knyaz-tishini/mirage-oss"
+[lib]
+name = "mirage_vpn_mesh"
+
+[dependencies]
+mirage-vpn = { workspace = true }
+mirage-core = { workspace = true }
+mirage-protocol = { workspace = true }
+mirage-control-plane = { workspace = true }
+tokio = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+hex = { workspace = true }
+async-trait = { workspace = true }

@@ -1,0 +1,36 @@
+[package]
+name = "mirage-hostsec"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Host-security recipes: process hardening, nftables policy, and posture probes."
+
+# mirage-local host-security recipes for the L2/L3 security vertical
+# (secd + mirage-fw). One-directional mirage <- stk: patterns are COPIED
+# from servertoolkit (never a path-dep on stk), per the substrate master
+# plan §5/§6. This crate is the home for process hardening (here now),
+# and — as the vertical lands — the nftables base policy + dynamic ban
+# set + sshd/posture probes. The only mirage crate carrying unsafe libc
+# FFI, kept isolated like stk's servertoolkit-hardening.
+repository = "https://github.com/knyaz-tishini/mirage-oss"
+homepage = "https://github.com/knyaz-tishini/mirage-oss"
+[dependencies]
+serde = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+# axis S self-sandbox (secd master plan §10, frameworks §5): seccomp
+# allowlist + Landlock self-restriction. Linux-only; both crates are
+# pure-Rust/pure-syscall and musl-static-safe (no libseccomp C dependency —
+# `seccompiler` builds BPF filter bytecode itself and installs it via raw
+# `prctl`/`seccomp` syscalls).
+[target.'cfg(target_os = "linux")'.dependencies]
+seccompiler = "0.5"
+landlock = "0.4"
+
+[dev-dependencies]
+serde_json = { workspace = true }

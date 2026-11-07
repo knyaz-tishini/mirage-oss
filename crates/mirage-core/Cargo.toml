@@ -1,0 +1,99 @@
+[package]
+license = "MIT"
+name = "mirage-core"
+version.workspace = true
+edition.workspace = true
+description = "Shared types for a Mirage node: wire plane, mesh plane, and listener config."
+repository = "https://github.com/knyaz-tishini/mirage-oss"
+homepage = "https://github.com/knyaz-tishini/mirage-oss"
+[dependencies]
+mirage-ids = { workspace = true }
+mirage-blindtoken = { path = "../mirage-blindtoken" }
+mirage-ringmember = { path = "../mirage-ringmember" }
+x25519-dalek = { workspace = true }
+ed25519-dalek = { workspace = true }
+zeroize = { version = "1.8", features = ["derive", "alloc"] }
+subtle = "2"
+chacha20poly1305 = { workspace = true }
+aes-gcm = { workspace = true }
+blake3 = { workspace = true }
+hkdf = { workspace = true }
+hmac = { workspace = true }
+sha2 = { workspace = true }
+rand = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+bytes = { workspace = true }
+tracing = { workspace = true }
+# `rt` and `sync`: `local_rpc::serve_on` spawns a task per connection and
+# bounds them with a semaphore, so one stuck peer cannot stall a channel.
+tokio = { workspace = true, features = ["net", "io-util", "time", "rt", "sync"] }
+hex = { workspace = true }
+base64 = { workspace = true }
+# flate2 compresses the operator's country table (`crate::country_table`)
+# into the form that fits the capsule, the machine slice, the quorum
+# signature-share body and the gossiped anchor.
+#
+# PINNED TO AN EXACT VERSION, and so is its `miniz_oxide` (0.8.9) — on
+# purpose. The compressed bytes of the country table end up INSIDE the
+# signed preimage of `ServiceConfigAnchor::signing_bytes` (it embeds the
+# config JSON), so operator-box SIGNS the compressed bytes and the
+# monitors VERIFY them. If every workspace that builds `mirage-core` did
+# not produce the SAME bytes for the same table, a compressor bump would
+# silently invalidate every anchor in the park — and it would do so
+# quietly, because nothing in the signing path knows what the bytes are
+# supposed to be. `crate::country_table`'s golden-vector test
+# (`the_compressed_form_is_byte_stable`) is the alarm for exactly that.
+flate2 = "=1.1.9"
+# `miniz_oxide` is flate2's DEFLATE engine — it is pulled in
+# transitively, and flate2 1.1.9 accepts any `miniz_oxide 0.8.x`, so
+# without this line the resolver is free to pick a newer 0.8.x that
+# compresses the same table into DIFFERENT bytes. Pinned explicitly here
+# (rather than left to the lockfiles) because the four other workspaces
+# that build `mirage-core` — monitor, db-worker, sentry, panel — do not
+# carry flate2 in their lockfiles yet, and a resolver that picks a newer
+# `miniz_oxide` there would produce bytes that do not verify against the
+# anchors operator-box signed. Same reason, same consequence: every
+# anchor in the park would stop verifying, quietly.
+miniz_oxide = "=0.8.9"
+uuid = { version = "1", features = ["v4", "serde"] }
+toml = "0.8"
+# rusqlite — backend selected via feature flags. `default-features=false` so the
+# caller controls which sqlite3 backend is compiled (plain vs SQLCipher).
+# libsqlite3-sys build.rs: when bundled-sqlcipher is active it subsumes plain
+# bundled — activating both is safe and results in a SQLCipher build.
+rusqlite = { version = "0.31", default-features = false, optional = true }
+
+[features]
+default = []
+# Plain bundled SQLite path — dev box / opbox Windows native builds.
+# Vendors sqlite3 without OpenSSL; no Perl required.
+shared-store = ["dep:rusqlite", "rusqlite/bundled"]
+# SQLCipher path for musl monitor builds on Linux VPS.
+# Activates bundled-sqlcipher-vendored-openssl (which implies bundled-sqlcipher
+# which implies bundled). When the monitor enables BOTH shared-store (for the
+# code path) and sqlcipher (for the crypto), the libsqlite3-sys build.rs
+# detects bundled-sqlcipher and compiles SQLCipher — so the two features are
+# additive and safe: the cipher build subsumes the plain build.
+# Usage in monitor: default dep uses features=["shared-store"], musl release
+# adds --features sqlcipher which then also enables this feature here.
+sqlcipher = ["dep:rusqlite", "rusqlite/bundled-sqlcipher-vendored-openssl"]
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+socket2 = { workspace = true }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+winreg = "0.52"
+windows-sys = { version = "0.59", features = [
+    "Win32_Foundation",
+    "Win32_NetworkManagement_IpHelper",
+    "Win32_NetworkManagement_Ndis",
+    "Win32_Networking_WinSock",
+    "Win32_Security",
+    "Win32_Security_Authorization",
+    "Win32_System_Threading",
+] }

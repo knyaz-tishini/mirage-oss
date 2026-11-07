@@ -1,0 +1,28 @@
+[package]
+name = "mirage-control-plane"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Client dial primitives shared by the client runtime and the mesh client."
+repository = "https://github.com/knyaz-tishini/mirage-oss"
+homepage = "https://github.com/knyaz-tishini/mirage-oss"
+[lib]
+name = "mirage_control_plane"
+
+[dependencies]
+mirage-core     = { workspace = true }
+mirage-protocol = { workspace = true }
+tokio           = { workspace = true }
+async-trait     = "0.1"
+tracing         = { workspace = true }
+rand            = { workspace = true }
+x25519-dalek    = { workspace = true }
+zeroize         = { version = "1.8", features = ["alloc"] }
+
+# wire types — control-plane schema shared between monitor / node /
+# mshd / app (edge) / operator-client / sentry / db-worker.
+serde      = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+tracing-subscriber = { workspace = true }

@@ -1,0 +1,20 @@
+# Cargo configuration for the mirage-oss workspace.
+#
+# [env] applies to every process cargo spawns here — including the test
+# binaries libtest runs.
+#
+# RUST_TEST_THREADS caps libtest's default parallelism (it defaults to the
+# CPU count). The cap is here because `mirage-protocol`'s UDP camouflage
+# tests (`camouflage/raw_udp.rs`, `camouflage/wireguard.rs`) await a session
+# announcement with NO timeout, and that announcement rides on a single UDP
+# datagram. When the whole suite runs at full parallelism on a busy machine
+# a dropped datagram leaves such a test waiting forever — the run HANGS
+# instead of failing. The cap keeps the socket pressure low enough for the
+# datagrams to arrive.
+#
+# This is inherited from the fleet's code (byte-identical crates), not a
+# defect of this repository; the real fix — bounded awaits in those tests —
+# belongs in the fleet. Raise the cap or drop it once that lands.
+
+[env]
+RUST_TEST_THREADS = "4"

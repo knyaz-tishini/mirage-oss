@@ -1,0 +1,68 @@
+[package]
+license = "MIT"
+name = "mirage-protocol"
+version.workspace = true
+edition.workspace = true
+description = "Mirage wire: handshake, session, carriers, camouflage, and transports."
+repository = "https://github.com/knyaz-tishini/mirage-oss"
+homepage = "https://github.com/knyaz-tishini/mirage-oss"
+[features]
+grpc = ["h2"]
+ssh = ["russh", "russh-keys"]
+
+[dependencies]
+anyhow = { workspace = true }
+mirage-core = { workspace = true }
+serde = { workspace = true }
+tokio = { workspace = true }
+bytes = { workspace = true }
+tracing = { workspace = true }
+rand = { workspace = true }
+thiserror = { workspace = true }
+async-trait = "0.1"
+boringtun = { version = "0.7.1", default-features = false }
+# AmneziaWG 2.0/3.0/3.1. Not on crates.io. Tag v0.12.0, reviewed 2026-11-04.
+# rust-version 1.97. Default features off: noise only, no TUN device.
+awgtun = { git = "https://github.com/AYastrebov/awgtun", tag = "v0.12.0", default-features = false }
+shadowsocks = { version = "1.25.0", default-features = false, features = ["aead-cipher-2022"] }
+x25519-dalek = { workspace = true }
+quinn = { workspace = true }
+rcgen = { workspace = true }
+rustls = { workspace = true }
+ring = "0.17"
+tokio-tungstenite = { workspace = true }
+futures-util = "0.3"
+tokio-rustls = { workspace = true }
+h3 = { workspace = true }
+h3-quinn = { workspace = true }
+http = "1"
+sha2 = { workspace = true }
+blake3 = { workspace = true }
+chacha20 = { workspace = true }
+chacha20poly1305 = { workspace = true }
+aes-gcm = "0.10"
+hkdf = "0.12"
+hex = { workspace = true }
+subtle = "2"
+zeroize = { version = "1.8", features = ["derive", "alloc"] }
+
+serde_json = { workspace = true }
+socket2 = { workspace = true }
+h2 = { workspace = true, optional = true }
+russh = { workspace = true, optional = true }
+russh-keys = { workspace = true, optional = true }
+
+[dev-dependencies]
+# `test-util` on top of the workspace's tokio spec, dev-only: needed by
+# driver.rs's `tcp_connect_bounded` timeout test (`start_paused` +
+# `tokio::time::advance`) to deterministically fire a connect-bound without
+# waiting on real wall-clock time. Not a new dependency — tokio is already a
+# normal dependency of this crate; this only widens the feature set used
+# when compiling tests.
+tokio = { workspace = true, features = ["test-util"] }
+# Dev-only: driver.rs's `RoleSigned` V9-credential-slot round-trip test
+# builds a real `mirage_core::crypto::credential::role_signed::RoleSignedToken`
+# end to end, which needs a `Uuid` and an operator/edge Ed25519 keypair. Both
+# are already workspace-pinned versions every other crate here uses.
+uuid = { workspace = true }
+ed25519-dalek = { workspace = true }

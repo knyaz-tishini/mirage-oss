@@ -1,0 +1,103 @@
+[package]
+name    = "mirage-perimeter"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Public front door of a box: own the facing ports, classify Mirage wire, reject the rest."
+build   = "build.rs"
+
+# The box's public front door — owns every attacker-facing port, strips the
+# outer camouflage, classifies whether what remains is Mirage wire, and
+# either splices the connection through to the co-located monitor on
+# loopback or rejects it. Decoys/honeypots/jails moved out of `mirage-secd`
+# (the policy-enforcement core) because the core must not also run the
+# periphery. See `src/lib.rs`'s module doc for the full reasoning and for
+# what is still genuinely open (decoy/jail/honeypot dispatch is NOT built
+# here — every non-wire connection is simply rejected, a deliberate interim
+# decision).
+repository = "https://github.com/knyaz-tishini/mirage-oss"
+homepage = "https://github.com/knyaz-tishini/mirage-oss"
+[[bin]]
+name = "mirage-perimeter"
+path = "src/main.rs"
+
+# flate2 is a BUILD-TIME-ONLY dependency: it generates the send-first
+# decompression-bomb blob (`build.rs` -> `$OUT_DIR/decoy_bomb.bin`) at
+# `cargo build` time, moved verbatim from `mirage-secd/build.rs` along with
+# `src/bomb.rs` itself. It is NOT in [dependencies] and is therefore not
+# linked into anything that ends up depending on this crate.
+[build-dependencies]
+flate2 = "1"
+
+[dependencies]
+tokio     = { workspace = true }
+serde     = { workspace = true }
+tracing   = { workspace = true }
+dashmap   = "6"
+rand      = { workspace = true }
+# The baseline<->capsule face swap (`src/lib.rs::Surface`, `src/face.rs::
+# SharedFace`/`SharedKeypair`) hot-swaps a face's camouflage and this
+# process's wire keypair without ever closing the listener that serves
+# them — the same primitive `mirage-mesh` already uses for its own
+# active-chain hot-swap (`crates/mirage-mesh/src/state.rs`).
+arc-swap  = { workspace = true }
+
+# `CancellationToken` — the per-face stop signal `src/lib.rs::Surface`
+# holds so that retiring a port a capsule no longer declares can actually
+# make `src/face.rs::accept_loop` stop accepting and drop the listener,
+# rather than merely forgetting its `JoinHandle`. Already a workspace
+# dependency and already used the same way by `mirage-mesh`
+# (`crates/mirage-mesh/src/runtime.rs`) for its own graceful task
+# shutdown — adding it here is a new direct edge to a crate already
+# vendored and audited, not a new supply-chain item.
+tokio-util = { workspace = true }
+
+# IPv6-only socket construction for the v6 half of a face's dual-stack
+# listener (`src/face.rs::bind_v6_only`) — `tokio::net::TcpListener::bind`
+# has no way to set `IPV6_V6ONLY` before bind, and this fleet's own hosts
+# run `bindv6only=0`, so a plain `[::]` bind would silently claim the IPv4
+# wildcard on the same port too. Already resolved in this workspace's
+# `Cargo.lock` as a transitive of `tokio`/`quinn` and already a direct
+# dependency of `mirage-core`/`mirage-protocol` (`socket2 = { workspace =
+# true }`, root `Cargo.toml`) — adding it here is not a new supply-chain
+# item, only a new direct edge to a crate already vendored and audited.
+socket2   = { workspace = true }
+
+# The front door needs the wire's own message shapes (V9 ClientHello) and
+# the camouflage strip pipeline (`strip_tcp_server`) to do its job at all —
+# unlike the pre-daemon library-only cut, this is no longer optional.
+mirage-protocol = { path = "../mirage-protocol" }
+
+# Boot sequence follows `mirage-secd`/`mirage-warden` exactly: process
+# hardening before any secret material is loaded.
+mirage-hostsec = { path = "../mirage-hostsec" }
+
+anyhow             = { workspace = true }
+thiserror          = { workspace = true }
+serde_json         = { workspace = true }
+hex                = { workspace = true }
+ed25519-dalek      = { workspace = true }
+tracing-subscriber = { workspace = true }
+# rustls 0.23+ needs an explicit CryptoProvider installed before any TLS
+# operation — required because a face configured with `TlsReal`/`Reality`
+# camouflage runs real server-side TLS inside `strip_tcp_server`.
+rustls             = { workspace = true }
+
+# The ONLY internal dependency the pre-daemon library cut carried. decoy.rs's
+# burn-mechanism handlers used to also reach into secd's ban engine, intel
+# accumulator and firewall wrapper in-process; that edge is cut (2026-07-31)
+# — decoy.rs now reports typed `PerimeterObservation` rows (defined in
+# `mirage_core::perimeter_observation`) through a sink this crate defines
+# and does not implement. See src/lib.rs's module doc.
+mirage-core = { path = "../mirage-core" }
+
+[dev-dependencies]
+# `test-util` on top of the workspace's tokio spec, dev-only: needed by
+# `face.rs`'s splice-backstop test (`start_paused` + `tokio::time::advance`)
+# to prove the observe-only ceiling fires deterministically without waiting
+# on its real, generous (minutes-to-hours) wall-clock duration. Not a new
+# dependency — tokio is already a normal dependency of this crate; this only
+# widens the feature set used when compiling tests. Same pattern already
+# used by `mirage-protocol/Cargo.toml` for its own `start_paused` test.
+tokio = { workspace = true, features = ["test-util"] }

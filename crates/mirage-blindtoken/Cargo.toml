@@ -1,0 +1,15 @@
+[package]
+name = "mirage-blindtoken"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+publish = false
+description = "RFC 9474 RSA blind signature token issuance primitive (RSABSSA-SHA384-PSS-Randomized)"
+repository = "https://github.com/knyaz-tishini/mirage-oss"
+homepage = "https://github.com/knyaz-tishini/mirage-oss"
+[dependencies]
+blind-rsa-signatures = { version = "=0.17.2", default-features = false }
+thiserror = "1"
+
+[dev-dependencies]
+rand = "0.8"

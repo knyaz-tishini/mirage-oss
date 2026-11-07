@@ -1,0 +1,17 @@
+[package]
+name = "mirage-ids"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Strongly typed identifiers for the Mirage stack. No I/O."
+repository = "https://github.com/knyaz-tishini/mirage-oss"
+homepage = "https://github.com/knyaz-tishini/mirage-oss"
+[dependencies]
+serde     = { workspace = true }
+thiserror = { workspace = true }
+uuid      = { workspace = true }
+blake3    = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }

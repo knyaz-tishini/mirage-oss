@@ -1,0 +1,148 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/mirage-ids",
+    "crates/mirage-blindtoken",
+    "crates/mirage-ringmember",
+    "crates/mirage-core",
+    "crates/mirage-protocol",
+    "crates/mirage-mux",
+    "crates/mirage-dial-core",  # logical name: mirage-control-plane (folder rename pending lock release)
+    "crates/mirage-wire-http-client",
+    "crates/mirage-shared-types",
+    "crates/mirage-hostsec",
+    "crates/mirage-perimeter",
+    "crates/mirage-subscriber-gate",
+    # The VPN layer: the peer table, the handshake, the traffic keys and the
+    # transports the three Mirage protocols ride on.
+    "crates/mirage-vpn",
+    # The bridge between the mesh and the VPN: the session inside an onion
+    # chain. A separate crate so that mirage-vpn stays free of the mesh.
+    "crates/mirage-vpn-mesh",
+    # The program around the VPN: the config files, the server and the client.
+    "crates/mirage-vpn-cli",
+    # The leg of a chain: the config, the credential, the protocol and the
+    # dial. The standalone box and the edge fleet are its consumers.
+    "crates/mirage-chain-leg",
+    # The server program m1r4g3-server. Was its own repo (mirage-standalone).
+    "crates/mirage-standalone"
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+publish = false
+repository = "https://github.com/knyaz-tishini/mirage-oss"
+homepage = "https://github.com/knyaz-tishini/mirage-oss"
+[workspace.dependencies]
+# Internal crates (OSS layer only — the fleet crates are NOT here).
+mirage-ids  = { path = "crates/mirage-ids" }
+mirage-blindtoken  = { path = "crates/mirage-blindtoken" }
+mirage-ringmember  = { path = "crates/mirage-ringmember" }
+mirage-core = { path = "crates/mirage-core" }
+mirage-protocol = { path = "crates/mirage-protocol" }
+mirage-mux = { path = "crates/mirage-mux" }
+mirage-control-plane = { path = "crates/mirage-dial-core" }
+mirage-wire-http-client = { path = "crates/mirage-wire-http-client" }
+mirage-shared-types    = { path = "crates/mirage-shared-types" }
+mirage-hostsec         = { path = "crates/mirage-hostsec" }
+mirage-perimeter       = { path = "crates/mirage-perimeter" }
+mirage-node            = { path = "../mirage-node/crates/mirage-node" }
+mirage-subscriber-gate = { path = "crates/mirage-subscriber-gate" }
+mirage-vpn          = { path = "crates/mirage-vpn" }
+mirage-vpn-mesh     = { path = "crates/mirage-vpn-mesh" }
+mirage-vpn-cli      = { path = "crates/mirage-vpn-cli" }
+mirage-chain-leg    = { path = "crates/mirage-chain-leg" }
+
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# Crypto
+x25519-dalek = { version = "2", features = ["static_secrets"] }
+ed25519-dalek = { version = "2", features = ["rand_core", "serde"] }
+chacha20poly1305 = "0.10"
+chacha20 = "0.9"
+aes-gcm = "0.10"
+blake3 = "1"
+hkdf = "0.12"
+hmac = "0.12"
+sha2 = "0.10"
+rand = "0.8"
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+hex = "0.4"
+base64 = "0.22"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Networking
+quinn = "0.11"
+h2 = "0.4"
+rcgen = "0.13"
+rustls = { version = "0.23", features = ["ring"] }
+
+# Error handling
+thiserror = "2"
+
+# Web framework (admin)
+axum = "0.8"
+
+# Database (admin)
+sqlx = { version = "0.8", features = ["runtime-tokio", "sqlite"] }
+
+# SSH (provisioning)
+russh = "0.48"
+russh-keys = "0.48"
+
+# TUN interface (client)
+# tun-rs = { version = "2", features = ["async_tokio"] }
+
+# GeoIP (client split routing)
+maxminddb = "0.24"
+
+# CLI
+clap = { version = "4", features = ["derive"] }
+
+# Byte manipulation
+bytes = "1"
+
+# Raw socket support (ICMP camouflage)
+socket2 = { version = "0.5", features = ["all"] }
+
+# HTTP client (DoH resolver + DNS-over-HTTPS via SOCKS5)
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json", "socks"] }
+
+# WebSocket transport
+tokio-tungstenite = { version = "0.24", features = ["rustls-tls-webpki-roots"] }
+
+# HTTP/3 transport (MASQUE-style Mirage-HTTP3)
+h3 = "0.0.7"
+h3-quinn = "0.0.9"
+
+# TLS async stream wrapper (used by MirageTLS protocol)
+tokio-rustls = { version = "0.26", features = ["ring"] }
+
+# Lock-free atomic Arc swap (hot-config pattern)
+arc-swap = "1"
+
+# Cancellation tokens for graceful task shutdown
+tokio-util = { version = "0.7", features = ["rt"] }
+
+# Mux frame layer
+futures = "0.3"
+futures-util = "0.3"
+parking_lot = "0.12"
+nohash-hasher = "0.2"
+pin-project = "1"
+
+# Transitive deps of the crates above
+anyhow = "1"
+postcard = { version = "1", features = ["use-std"] }
+once_cell = "1"
+uuid = { version = "1", features = ["v4"] }
+async-trait = "0.1"

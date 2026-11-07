@@ -1,0 +1,8 @@
+/target/
+**/*.rs.bk
+*.stackdump
+
+# Local build/test logs (kept on disk for inspection, not committed)
+/build.log
+/test.log
+/test-single.log
